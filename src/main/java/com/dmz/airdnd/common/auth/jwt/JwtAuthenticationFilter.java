@@ -74,7 +74,7 @@ public class JwtAuthenticationFilter implements Filter {
 	}
 
 	private boolean isPermitAllPath(String uri) {
-		return uri.startsWith("/api/auth") || uri.startsWith("/swagger-ui");
+		return uri.startsWith("/api/auth") || uri.startsWith("/swagger-ui") || uri.startsWith("/v3/api-docs");
 	}
 
 	private void writeJsonResponse(HttpServletResponse response, ApiResponse<Void> dto) throws

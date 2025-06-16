@@ -40,3 +40,19 @@ jobs:
           context: .
           push: true
           tags: jdagon2000/be-airdnd:latest
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          port: 22
+          key: ${{ secrets.EC2_SSH_KEY }}      # private key (PEM)
+          script: |
+            set -e
+            cd ~/app
+            chmod +x ./deploy.sh
+            ./deploy.sh

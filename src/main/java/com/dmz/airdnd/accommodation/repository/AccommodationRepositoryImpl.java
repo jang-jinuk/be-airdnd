@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.dmz.airdnd.accommodation.domain.Accommodation;
 import com.dmz.airdnd.accommodation.domain.QAccommodation;
+import com.dmz.airdnd.accommodation.domain.QAddress;
 import com.dmz.airdnd.accommodation.dto.FilterCondition;
 import com.dmz.airdnd.accommodation.util.GeometryFactory;
 import com.dmz.airdnd.reservation.domain.QAvailability;
@@ -28,6 +29,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
 	@Override
 	public Page<Accommodation> findFilteredAccommodations(Pageable pageable, FilterCondition filterCondition) {
 		QAccommodation accommodation = QAccommodation.accommodation;
+		QAddress address = QAddress.address;
 		QAvailability availability = QAvailability.availability;
 
 		double lng = filterCondition.longitude();
@@ -41,6 +43,7 @@ public class AccommodationRepositoryImpl implements AccommodationRepositoryCusto
 
 		List<Accommodation> accommodations = queryFactory
 			.selectFrom(accommodation)
+			.join(accommodation.address, address).fetchJoin()
 			.where(
 				minPrice != null ? accommodation.pricePerDay.goe(minPrice) : null,
 				maxPrice != null ? accommodation.pricePerDay.loe(maxPrice) : null,

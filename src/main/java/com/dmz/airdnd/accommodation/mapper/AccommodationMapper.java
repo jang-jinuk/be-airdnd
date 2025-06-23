@@ -2,6 +2,8 @@ package com.dmz.airdnd.accommodation.mapper;
 
 import java.util.List;
 
+import org.locationtech.jts.geom.Point;
+
 import com.dmz.airdnd.accommodation.domain.Accommodation;
 import com.dmz.airdnd.accommodation.domain.Address;
 import com.dmz.airdnd.accommodation.domain.Label;
@@ -47,11 +49,13 @@ public class AccommodationMapper {
 	}
 
 	public static AddressResponse toResponse(Address address) {
+		Point location = address.getLocation();
 		return AddressResponse.builder()
 			.country(address.getCountry())
 			.baseAddress(address.getBaseAddress())
 			.detailedAddress(address.getDetailedAddress())
-			.location(address.getLocation())
+			.latitude(location.getX())
+			.longitude(location.getY())
 			.build();
 	}
 

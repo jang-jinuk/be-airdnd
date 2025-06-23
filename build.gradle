@@ -64,7 +64,7 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-def querydslDir = "src/main/generated"
+def querydslDir = "build/generated"
 
 sourceSets {
     main.java.srcDirs += querydslDir

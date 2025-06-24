@@ -77,7 +77,7 @@ public class TestAccommodationFactory {
 				.description("조용하고 따뜻한 다락방")
 				.pricePerDay(55000)
 				.currency("KRW")
-				.maxGuests(1)
+				.maxGuests(2)
 				.bedCount(1)
 				.bedroomCount(1)
 				.bathroomCount(1)

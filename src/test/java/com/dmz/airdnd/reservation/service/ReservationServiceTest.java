@@ -3,6 +3,7 @@ package com.dmz.airdnd.reservation.service;
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -59,7 +60,8 @@ class ReservationServiceTest {
 		UserContext.set(new UserInfo(1L, Role.USER));
 		guest = TestUserFactory.createTestUser(1L);
 		accommodation = TestAccommodationFactory.createTestAccommodation(1L);
-		reservation = TestReservationFactory.createTestReservation(guest, accommodation);
+		reservation = TestReservationFactory.createTestReservation(guest, accommodation, LocalDate.of(2025, 7, 21),
+			LocalDate.of(2025, 7, 23));
 	}
 
 	@Test

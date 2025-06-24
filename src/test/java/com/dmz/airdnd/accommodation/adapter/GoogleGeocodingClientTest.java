@@ -6,13 +6,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.dmz.airdnd.accommodation.dto.response.CoordinatesDto;
+import com.dmz.airdnd.common.config.RestTemplateConfig;
 import com.dmz.airdnd.common.exception.GeocodingException;
 
-@SpringBootTest
+@ImportAutoConfiguration(RestTemplateAutoConfiguration.class)
+@SpringJUnitConfig(classes = {
+	RestTemplateConfig.class,
+	GoogleGeocodingClient.class})
 @ActiveProfiles("dev")
 class GoogleGeocodingClientTest {
 

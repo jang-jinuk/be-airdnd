@@ -58,6 +58,8 @@ dependencies {
 
     implementation 'org.hibernate:hibernate-spatial'
     implementation 'org.locationtech.jts:jts-core'
+
+    implementation 'org.redisson:redisson-spring-boot-starter:3.27.2'
 }
 
 tasks.named('test') {

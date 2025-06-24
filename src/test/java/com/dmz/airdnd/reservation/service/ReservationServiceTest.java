@@ -49,6 +49,9 @@ class ReservationServiceTest {
 	@Mock
 	private AvailabilityService availabilityService;
 
+	@Mock
+	private RedisLockService redisLockService;
+
 	private Reservation reservation;
 
 	private Accommodation accommodation;
@@ -56,12 +59,18 @@ class ReservationServiceTest {
 	private User guest;
 
 	@BeforeEach
-	void setup() {
+	void setup() throws InterruptedException {
 		UserContext.set(new UserInfo(1L, Role.USER));
 		guest = TestUserFactory.createTestUser(1L);
 		accommodation = TestAccommodationFactory.createTestAccommodation(1L);
 		reservation = TestReservationFactory.createTestReservation(guest, accommodation, LocalDate.of(2025, 7, 21),
 			LocalDate.of(2025, 7, 23));
+
+		doAnswer(invocation -> {
+			Runnable runnable = invocation.getArgument(1);
+			runnable.run();
+			return null;
+		}).when(redisLockService).executeWithMultiLock(anyList(), any());
 	}
 
 	@Test

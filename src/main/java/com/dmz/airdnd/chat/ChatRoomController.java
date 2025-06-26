@@ -27,7 +27,6 @@ public class ChatRoomController {
 	public ResponseEntity<ApiResponse<Void>> createChatRoom(@RequestBody String name) {
 		ChatRoom chatRoom = ChatRoom.builder()
 			.name(name)
-			.messages(List.of())
 			.build();
 
 		chatRoomRepository.save(chatRoom);
@@ -39,5 +38,11 @@ public class ChatRoomController {
 	public ResponseEntity<ApiResponse<ChatRoom>> getChatRoom(@PathVariable Long id) {
 		ChatRoom chatRoom = chatRoomRepository.findById(id).get();
 		return ResponseEntity.ok(ApiResponse.success(chatRoom));
+	}
+
+	@GetMapping
+	public ResponseEntity<ApiResponse<List<ChatRoom>>> getChatRoomList() {
+		List<ChatRoom> chatRooms = chatRoomRepository.findAll();
+		return ResponseEntity.ok(ApiResponse.success(chatRooms));
 	}
 }

@@ -14,12 +14,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatMessageResponse {
+	private Long chatRoomID;
 	private String senderName;
 	private String content;
 	private LocalDateTime createdAt;
 
 	public static ChatMessageResponse from(ChatMessage message) {
 		return ChatMessageResponse.builder()
+			.chatRoomID(message.getChatRoom().getId())
 			.senderName(message.getSender().getLoginId())
 			.content(message.getContent())
 			.createdAt(message.getSentAt())

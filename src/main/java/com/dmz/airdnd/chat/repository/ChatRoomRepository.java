@@ -12,9 +12,10 @@ import com.dmz.airdnd.chat.dto.ChatMessageResponse;
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 	@Query("""
 		    SELECT new com.dmz.airdnd.chat.dto.ChatMessageResponse(
+				cm.chatRoom.id,
 		        cm.sender.loginId,
 		        cm.content,
-		cm.sentAt
+				cm.sentAt
 		    )
 		    FROM ChatMessage cm
 		    WHERE cm.chatRoom.id = :roomId

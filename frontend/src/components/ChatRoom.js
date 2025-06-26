@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Client } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
 import { chatAPI } from '../api/chat';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
@@ -194,8 +193,8 @@ const ChatRoom = () => {
     connectWebSocket();
     
     return () => {
-      if (stompClientRef.current) {
-        stompClientRef.current.disconnect();
+      if (stompClientRef.current && stompClientRef.current.active) {
+        stompClientRef.current.deactivate();
       }
     };
   }, [roomId, token]);
@@ -223,7 +222,7 @@ const ChatRoom = () => {
     if (!token) return;
 
     const client = new Client({
-      webSocketFactory: () => new SockJS(`http://localhost:8080/ws/chat?token=${token}`),
+      brokerURL: `ws://localhost:8080/ws/chat?token=${token}`,
       debug: (str) => {
         console.log('STOMP Debug:', str);
       },

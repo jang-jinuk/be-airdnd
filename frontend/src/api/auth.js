@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/api/auth';
+const API_BASE_URL = 'http://localhost:8080';
 
 // axios 인스턴스 생성
 const api = axios.create({
@@ -40,11 +40,11 @@ api.interceptors.response.use(
 export const authAPI = {
   // 로그인
   login: async (loginData) => {
-    return await api.post('/login', loginData);
+    return await api.post('/api/auth/login', loginData);
   },
 
   // 회원가입
   signup: async (userData) => {
-    return await api.post('/signup', userData);
+    return await api.post('/api/auth/signup', userData);
   }
 }; 

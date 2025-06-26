@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/api/chatrooms';
+const API_BASE_URL = 'http://localhost:8080';
 
 // axios 인스턴스 생성
 const api = axios.create({
@@ -40,12 +40,12 @@ api.interceptors.response.use(
 export const chatAPI = {
   // 채팅방 목록 조회
   getChatRooms: async () => {
-    return await api.get('/');
+    return await api.get('/api/chatrooms');
   },
 
   // 채팅방 생성
   createChatRoom: async (roomName) => {
-    return await api.post('/', roomName, {
+    return await api.post('/api/chatrooms', roomName, {
       headers: {
         'Content-Type': 'text/plain',
       },
@@ -54,6 +54,6 @@ export const chatAPI = {
 
   // 특정 채팅방 조회
   getChatRoom: async (roomId) => {
-    return await api.get(`/${roomId}`);
+    return await api.get(`/api/chatrooms/${roomId}`);
   },
 }; 

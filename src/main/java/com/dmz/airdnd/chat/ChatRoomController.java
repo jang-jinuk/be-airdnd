@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dmz.airdnd.chat.domain.ChatRoom;
+import com.dmz.airdnd.chat.dto.ChatMessageResponse;
+import com.dmz.airdnd.chat.dto.ChatRoomDetailResponse;
 import com.dmz.airdnd.chat.repository.ChatRoomRepository;
 import com.dmz.airdnd.common.dto.ApiResponse;
 
@@ -35,9 +37,11 @@ public class ChatRoomController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<ApiResponse<ChatRoom>> getChatRoom(@PathVariable Long id) {
-		ChatRoom chatRoom = chatRoomRepository.findById(id).get();
-		return ResponseEntity.ok(ApiResponse.success(chatRoom));
+	public ResponseEntity<ApiResponse<ChatRoomDetailResponse>> getChatRoom(@PathVariable Long id) {
+		String name = chatRoomRepository.findById(id).get().getName();
+		List<ChatMessageResponse> chatMessageResponses = chatRoomRepository.findMessagesByChatRoomId(id);
+		ChatRoomDetailResponse chatRoomDetailResponse = new ChatRoomDetailResponse(id, name, chatMessageResponses);
+		return ResponseEntity.ok(ApiResponse.success(chatRoomDetailResponse));
 	}
 
 	@GetMapping

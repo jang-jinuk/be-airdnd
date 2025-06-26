@@ -13,6 +13,7 @@ public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
 	@Query("""
 		    SELECT new com.dmz.airdnd.chat.dto.ChatMessageResponse(
 				cm.chatRoom.id,
+				cm.sender.id,
 		        cm.sender.loginId,
 		        cm.content,
 				cm.sentAt

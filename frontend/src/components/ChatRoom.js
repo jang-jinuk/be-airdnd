@@ -55,6 +55,20 @@ const MessagesContainer = styled.div`
   gap: 1rem;
 `;
 
+const MessageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  ${props => props.isOwn ? 'align-items: flex-end;' : 'align-items: flex-start;'}
+`;
+
+const SenderName = styled.div`
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  ${props => props.isOwn ? 'display: none;' : ''}
+`;
+
 const MessageBubble = styled.div`
   max-width: 70%;
   padding: 0.75rem 1rem;
@@ -79,12 +93,8 @@ const MessageInfo = styled.div`
   color: ${props => props.isOwn ? 'rgba(255,255,255,0.8)' : '#666'};
   margin-top: 0.25rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: ${props => props.isOwn ? 'flex-end' : 'flex-start'};
   align-items: center;
-`;
-
-const SenderName = styled.span`
-  font-weight: 500;
 `;
 
 const MessageTime = styled.span`
@@ -208,6 +218,10 @@ const ChatRoom = () => {
       const response = await chatAPI.getChatRoom(roomId);
       if (response.success) {
         setRoomInfo(response.data);
+        // 기존 채팅 메시지들을 설정
+        if (response.data.messages) {
+          setMessages(response.data.messages);
+        }
       } else {
         setError('채팅방 정보를 불러올 수 없습니다.');
       }
@@ -326,14 +340,23 @@ const ChatRoom = () => {
       <MessagesContainer>
         {messages.map((message, index) => {
           const isOwn = message.senderId === currentUserId;
+          
           return (
-            <MessageBubble key={index} isOwn={isOwn}>
-              <div>{message.content}</div>
+            <MessageWrapper key={index} isOwn={isOwn}>
+              {!isOwn && (
+                <SenderName isOwn={isOwn}>
+                  {message.senderName}
+                </SenderName>
+              )}
+              
+              <MessageBubble isOwn={isOwn}>
+                {message.content}
+              </MessageBubble>
+              
               <MessageInfo isOwn={isOwn}>
-                {!isOwn && <SenderName>{message.senderName}</SenderName>}
                 <MessageTime>{formatTime(message.createdAt)}</MessageTime>
               </MessageInfo>
-            </MessageBubble>
+            </MessageWrapper>
           );
         })}
         <div ref={messagesEndRef} />

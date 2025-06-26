@@ -236,7 +236,7 @@ const ChatRoom = () => {
     if (!token) return;
 
     const client = new Client({
-      brokerURL: `ws://localhost:8080/ws/chat?token=${token}`,
+      brokerURL: `ws://54.180.106.158/ws/chat?token=${token}`,
       debug: (str) => {
         console.log('STOMP Debug:', str);
       },

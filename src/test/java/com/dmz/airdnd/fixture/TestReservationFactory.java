@@ -29,8 +29,8 @@ public class TestReservationFactory {
 
 	public static ReservationRequest createReservationRequest() {
 		return ReservationRequest.builder()
-			.checkInDate(LocalDate.of(2025, 7, 21))
-			.checkOutDate(LocalDate.of(2025, 7, 23))
+			.checkInDate(LocalDate.of(2025, 8, 21))
+			.checkOutDate(LocalDate.of(2025, 8, 23))
 			.numberOfGuests(4)
 			.timezone("Asia/Seoul")
 			.build();
